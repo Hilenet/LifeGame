@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<fx:root type="AnchorPane"  prefHeight="160" prefWidth="480"
+         xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label contentDisplay="CENTER" layoutX="15.0" layoutY="50.0" prefHeight="40.0" prefWidth="120.0"
+             style="-fx-background-color: #CCCCCC;" text="    Turn    ">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Label fx:id="turn_label"
+             alignment="CENTER" layoutX="90.0" layoutY="55.0" prefHeight="30.0" prefWidth="40.0"
+             style="-fx-background-color: #EEEEEE;" text="" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button text="run" layoutX="15.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
+              fx:id="run_button" onAction="#runButtonHandler"/>
+      <Button text="stop" layoutX="15.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
+              fx:id="stop_button" onAction="#stopButtonHandler"/>
+      <Button text="reset" layoutX="15.0" layoutY="270.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
+              fx:id="reset_button" onAction="#resetButtonHandler"/> 
+       <Button text="clear" layoutX="15.0" layoutY="360.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
+               fx:id="clear_button" onAction="#clearButtonHandler"/>
+   </children>
+</fx:root>
