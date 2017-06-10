@@ -31,7 +31,7 @@
       <Button text="stop" layoutX="15.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
               fx:id="stop_button" onAction="#stopButtonHandler"/>
       <Button text="reset" layoutX="15.0" layoutY="270.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
-              fx:id="reset_button" onAction="#resetButtonHandler"/> 
+              fx:id="reset_button" onAction="#resetButtonHandler"/>
        <Button text="clear" layoutX="15.0" layoutY="360.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
                fx:id="clear_button" onAction="#clearButtonHandler"/>
    </children>

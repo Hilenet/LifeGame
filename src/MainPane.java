@@ -1,6 +1,7 @@
-import javafx.concurrent.Worker;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 
 /**
  * Created by 3943 on 2017/06/10.
@@ -14,37 +15,34 @@ import javafx.scene.layout.AnchorPane;
  * 'game' class thread roles integration on this instance
  */
 
-public class MainPane extends AnchorPane{
+public class MainPane extends BorderPane{
     private SidePane sidepane;
-    private GameTask game;
     private Thread gThread;
-    private Canvas canvas;
+    private GraphicsContext graphicsContext;
     public Cell[][] field; // entity
-    private int line, column;
 
-    public boolean gameActive;
-    public int turn;
+    private boolean gameActive;
+    private int turn;
+
+    private int line, column;
+    private int span; //(ms)
 
     MainPane() {
         // bind (searching bitter way
-        setMaxWidth(480);
-        setMinWidth(480);
+        setMaxWidth(500);
+        setMinWidth(500);
 
         // initialize canvas
-        canvas = new Canvas();
+        Canvas canvas = new Canvas();
         canvas.setWidth(480);
         canvas.setHeight(480);
-        getChildren().add(canvas);
+        graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext.setFill(Color.LIGHTGREEN);
+        graphicsContext.setStroke(Color.BLACK);
 
         // initialize cells field
         line = column = 10;
-        field = new Cell[line][column];
-
-        for(int l = 0; l < line; l++) {
-            for(int c = 0; c < column; c++) {
-                field[l][c] = new Cell(l, c, canvas);
-            }
-        }
+        span = 1000;
 
         gameActive = false;
         gameReflesh(true);
@@ -56,17 +54,40 @@ public class MainPane extends AnchorPane{
 
     public void gameReflesh(boolean force) {
         turn = 0;
+
+        // suppose line:column modifiable
+        if(force) {
+            field = new Cell[line][column];
+
+            for(int l = 0; l < line; l++) {
+                for(int c = 0; c < column; c++) {
+                    field[l][c] = new Cell(l, c, 480/line,this);
+                }
+            }
+        }
         for(Cell[] line : field) {
             for(Cell cell : line) {
                 cell.reset(force);
             }
         }
+        canvasReflesh();
+
         // terminate game
         if(gThread!=null) gThread.stop();// deprecated, I know.
 
-        game = new GameTask(this);
-        gThread = new Thread(game);
+        gThread = new Thread(new GameTask(this));
         gThread.setDaemon(true);
+    }
+
+    public void canvasReflesh() {
+        graphicsContext.clearRect(0,0, 480, 480);
+
+        // paint each cell with selected state
+        for(Cell[] line : field) {
+            for(Cell cell : line) {
+                cell.paint();
+            }
+        }
     }
 
     public void proceedTurn() {
@@ -74,9 +95,20 @@ public class MainPane extends AnchorPane{
         sidepane.setTurnLabel(turn+"");
     }
 
-    public void mainRender() {
+    public int checkAroundCell(int x, int y) {
+        int score = 0;
+        int l = (x==0) ? x : x-1;
+        int c = (y==0) ? y : y-1;
 
+        for(; l<l+1 && l<line ; l++) {
+            for(;c<c+1 && c<column ; c++) {
+                score += 1;
+            }
+        }
+
+        return score;
     }
+
 
     /*
      * interfaces for sidepane
@@ -114,4 +146,16 @@ public class MainPane extends AnchorPane{
         gameReflesh(true);
     }
 
+    /*
+     * setter / getter
+     */
+    public int getSpan() {
+        return span;
+    }
+    public GraphicsContext getGraphicsContext() {
+        return graphicsContext;
+    }
+    public boolean isGameActive() {
+        return gameActive;
+    }
 }

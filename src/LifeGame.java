@@ -19,8 +19,8 @@ public class LifeGame extends Application {
     public void start(Stage primaryStage) throws Exception {
         // setup stage(window)
         primaryStage.setTitle("LifeGame");
-        primaryStage.setWidth(640);
-        primaryStage.setHeight(480);
+        primaryStage.setWidth(640+20);
+        primaryStage.setHeight(480+40+20);
         primaryStage.setResizable(false);
 
         // setup root scene

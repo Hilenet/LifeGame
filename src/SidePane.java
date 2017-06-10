@@ -62,13 +62,13 @@ public class SidePane extends AnchorPane{
 
     @FXML
     protected void runButtonHandler() {
-        if(!mainpane.gameActive) {
+        if(!mainpane.isGameActive()) {
             mainpane.startGame();
         }
     }
     @FXML
     protected void stopButtonHandler() {
-        if(mainpane.gameActive) {
+        if(mainpane.isGameActive()) {
             mainpane.stopGame();
         }
     }

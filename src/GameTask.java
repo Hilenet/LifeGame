@@ -25,19 +25,28 @@ public class GameTask extends Task {
     protected Object call() throws Exception {
         System.out.println("thread run");
         while(true) { // would change to game aliving condition
-            while (mainpane.gameActive) {
-                System.out.print("turn start");
+            while (mainpane.isGameActive()) {
                 Platform.runLater(() -> mainpane.proceedTurn());
 
                 // game process
+                evalCell();
+
                 // fps adjusting
-                sleep(1000);
+                sleep(mainpane.getSpan());
 
                 System.out.print("turn end");
             }
         }
 
         //return null;
+    }
+
+    private void evalCell() {
+        for(Cell[] line : field) {
+            for(Cell cell : line) {
+                cell.eval();
+            }
+        }
     }
 }
 
