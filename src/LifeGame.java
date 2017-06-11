@@ -31,7 +31,7 @@ public class LifeGame extends Application {
         // bad circular reference...
         mainpane = new MainPane();
         sidepane = new SidePane();
-        mainpane.setSidepane(sidepane);
+        mainpane.setSidePane(sidepane);
         sidepane.setMainpane(mainpane);
 
         // add both panel to root

@@ -18,29 +18,28 @@ public class GameTask extends Task {
 
     GameTask(MainPane mainpane) {
         this.mainpane = mainpane;
-        field = mainpane.field;
+        field = mainpane.getField();
     }
 
     @Override
     protected Object call() throws Exception {
-        System.out.println("thread run");
         while(true) { // would change to game aliving condition
             while (mainpane.isGameActive()) {
                 Platform.runLater(() -> mainpane.proceedTurn());
 
                 // game process
                 evalCell();
+                Platform.runLater(() -> mainpane.flash(true));
 
                 // fps adjusting
                 sleep(mainpane.getSpan());
-
-                System.out.print("turn end");
             }
         }
 
         //return null;
     }
 
+    // eval each cell
     private void evalCell() {
         for(Cell[] line : field) {
             for(Cell cell : line) {
